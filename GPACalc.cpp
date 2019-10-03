@@ -22,9 +22,12 @@ int main()
 
 	for(int i = 1; i <= totalClasses; i++)
 		{
+				
+			cin.ignore(2, '\n');  // clearing the input stream so it doesnt mess up the loop
+
 			
 			cout << "What was the letter grade for class number "
-			<< totalClasses << endl;
+			<< i << endl;
 
 			cin >> letterGrade;
 			plusOrMinus = cin.peek();
@@ -33,10 +36,8 @@ int main()
 			cout << "You got a "
 			<< letterGrade
 			<< plusOrMinus
-			<< "in class number "
+			<< " in class number "
 			<< i << endl;
-
-
 
 
 		}
