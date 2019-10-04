@@ -8,7 +8,83 @@ using namespace std;
  */
 
 
-double charToDouble(char c)
+
+double charToDouble(char c, char plus_Or_Minus); // The job of this function is to convert grade such as b- to gradePoints
+
+int main()
+{
+
+	int totalClasses; // Total number of classes the user is taking
+
+	char letterGrade, plusOrMinus; // the users letter grade for specified class, and if they got a +/-
+
+	double totalGradePoints; // total amount of grade points, ex: a = 4.0, b- = 2.67
+
+	double avgGpa; // calculated by dividing totalGradePoints by totalClasses
+
+	char exitCondition = 'y'; // setting exit condition to be n at first
+
+
+
+
+
+//      Beggining of do while to ask user for grades and calculate gpa
+	while(true)
+	{
+		cout << "How many classes are you taking?" << endl;
+
+		cin >> totalClasses;
+
+
+		for(int i = 1; i <= totalClasses; i++)
+			{
+				
+				cout << "What was the letter grade for class number "
+				<< i << endl;
+				cout << "Enter P if pass and F is failed for pass/fail classes" << endl;
+
+				cin >> letterGrade;
+
+				plusOrMinus = cin.peek();
+
+				cin.clear();				
+
+				totalGradePoints += charToDouble(letterGrade, plusOrMinus);
+			}
+
+		
+		avgGpa = totalGradePoints / totalClasses;
+
+		cout << "Average GPA is: ";
+		cout.precision(3);
+		cout << avgGpa << endl;
+
+
+		cout << "Would you like to re-calculate? <y/n>" << endl;
+
+
+	//got to make sure iostream is clear before asking if user wants to retry		
+		cin.clear();
+
+		exitCondition = cin.get();
+
+
+
+	//setting all my variables back to zero in case user wants to recalculate
+		avgGpa = 0.0;		
+		totalClasses = 0;		
+		totalGradePoints = 0.0;
+
+		if(exitCondition == 'n') { break; }	
+		
+		cin.clear();
+	}
+return 0;
+}
+
+
+
+double charToDouble(char c, char plus_Or_Minus)
 {
         double returnVal; // value of the character
 
@@ -21,62 +97,27 @@ double charToDouble(char c)
                 case 'b': returnVal = 3.0;
                 break;
 
-		case 'c': returnVal = 2.0;
-		break;
+                case 'c': returnVal = 2.0;
+                break;
 
-		case 'd': returnVal = 1.0;
-		break;
+                case 'd': returnVal = 1.0;
+                break;
 
-		case 'f': returnVal = 0.0;
-		break;
+                case 'f': returnVal = 0.0;
+                break;
 
-		default: break;
+                default: 
+			break;
                 }
 
-	return returnVal;
-
-}
-
-
-int main()
-{
-
-	int totalClasses; // Total number of classes the user is taking
-
-	char letterGrade, plusOrMinus; // the users letter grade for specified class, and if the got a +/-
-
-	double totalGradePoints; // total amount of grade points, ex: a = 4.0, b- = 2.67
-
-	double avgGpa; // calculated by dividing totalGradePoints by totalClasses
-
-	cout << "How many classes are you taking?" << endl;
-
-	cin >> totalClasses;
-
-
-	for(int i = 1; i <= totalClasses; i++)
-		{
-				
-			cin.ignore(2, '\n');  // clearing the input stream so it doesnt mess up the loop
-
-			
-			cout << "What was the letter grade for class number "
-			<< i << endl;
-
-			cin >> letterGrade;
-
-			plusOrMinus = cin.peek();
-
-//			cout << letterGrade << plusOrMinus;
-
-			totalGradePoints += charToDouble(letterGrade);
-		}
-
-		
-	avgGpa = totalGradePoints / totalClasses;
-
-	cout << "Average GPA is: ";
-	cout.precision(3);
-	cout << avgGpa;
-
+        switch(plus_Or_Minus)
+                {
+                        case '+': returnVal += 0.33;
+                                break;
+                        case '-': returnVal -= 0.33;
+                                break;
+                        default:
+                                break;
+                }
+        return returnVal;
 }
