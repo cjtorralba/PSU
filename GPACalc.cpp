@@ -29,16 +29,26 @@ int main()
 
 
 //      Beggining of do while to ask user for grades and calculate gpa
-	while(true)
+	while(exitCondition != 'n')
 	{
+
 		cout << "How many classes are you taking?" << endl;
+		while(!cin)
+			{
+			
+
+
+		
+			}
 
 		cin >> totalClasses;
 
 
 		for(int i = 1; i <= totalClasses; i++)
 			{
-				
+	
+				cin.ignore(100, '\n');
+			
 				cout << "What was the letter grade for class number "
 				<< i << endl;
 				cout << "Enter P if pass and F is failed for pass/fail classes" << endl;
@@ -47,7 +57,7 @@ int main()
 
 				plusOrMinus = cin.peek();
 
-				cin.clear();				
+	//			cin.clear();				
 
 				totalGradePoints += charToDouble(letterGrade, plusOrMinus);
 			}
@@ -64,7 +74,7 @@ int main()
 
 
 	//got to make sure iostream is clear before asking if user wants to retry		
-		cin.clear();
+		cin.ignore(100, '\n');	
 
 		exitCondition = cin.get();
 
@@ -74,10 +84,10 @@ int main()
 		avgGpa = 0.0;		
 		totalClasses = 0;		
 		totalGradePoints = 0.0;
-
-		if(exitCondition == 'n') { break; }	
 		
 		cin.clear();
+		cin.ignore(100, '\n');
+
 	}
 return 0;
 }
