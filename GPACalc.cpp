@@ -1,3 +1,4 @@
+
 #include <iostream>
 using namespace std;
 
@@ -33,13 +34,6 @@ int main()
 	{
 
 		cout << "How many classes are you taking?" << endl;
-		while(!cin)
-			{
-			
-
-
-		
-			}
 
 		cin >> totalClasses;
 
@@ -56,8 +50,6 @@ int main()
 				cin >> letterGrade;
 
 				plusOrMinus = cin.peek();
-
-	//			cin.clear();				
 
 				totalGradePoints += charToDouble(letterGrade, plusOrMinus);
 			}
