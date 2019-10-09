@@ -36,9 +36,9 @@ int main()
 		cout << "How many classes are you taking?" << endl;
 
 		cin >> totalClasses;
-
-
-		for(int i = 1; i <= totalClasses; i++)
+		
+		int loopCounter = totalClasses; // this is for the for() loop, in case we change the value of totalClasses
+		for(int i = 1; i <= loopCounter; i++)
 			{
 	
 				cin.ignore(100, '\n');
@@ -48,10 +48,11 @@ int main()
 				cout << "Enter P if pass and F is failed for pass/fail classes" << endl;
 
 				cin >> letterGrade;
-
+				if(letterGrade == 'p' || letterGrade == 'f'){ --totalClasses; } // if pass or fail, wont effect gpa
+				
 				plusOrMinus = cin.peek();
-
 				totalGradePoints += charToDouble(letterGrade, plusOrMinus);
+								
 			}
 
 		
