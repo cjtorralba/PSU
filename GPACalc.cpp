@@ -23,14 +23,14 @@ int main()
 
 	double avgGpa; // calculated by dividing totalGradePoints by totalClasses
 
-	char exitCondition = 'y'; // setting exit condition to be n at first
+	char recalculate = 'y'; // setting recalculate to be 'y' at first
 
 
 
 
 
-//      Beggining of do while to ask user for grades and calculate gpa
-	while(exitCondition != 'n')
+//      Beggining of while to ask user for grades and calculate gpa
+	while(recalculate == 'y')
 	{
 
 		cout << "How many classes are you taking?" << endl;
@@ -68,7 +68,7 @@ int main()
 	//got to make sure iostream is clear before asking if user wants to retry		
 		cin.ignore(100, '\n');	
 
-		exitCondition = cin.get();
+		recalculate = cin.get();
 
 
 
