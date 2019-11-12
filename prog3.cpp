@@ -1,5 +1,6 @@
 /* Code by christian torralba...assignment number 3 for CS162
  * purpose of this program is toask the user to input questions they want to store later to practice
+ * this mainly uses structures and functions to display the structures, creating them locally from the text file
  */
 
 
@@ -13,25 +14,26 @@ const int SUBSIZE = 21; // size for array of characters thta holds subject, e.g.
 const int QUESTSIZE = 140; // Constant for size of question
 //--------Structs------
 struct Question{
-	char subject[SUBSIZE]; //
-	char questionText[QUESTSIZE];
+	char subject[SUBSIZE]; // this is the subject of our question, loops, stucts, files, etc...
+	char questionText[QUESTSIZE];// this is the acutal question itself
 	char date[11]; //dates are usually a set size already..
 };
 
 
 //------Prototypes--------
+//functions explained where they are written 
+//prototypes are pretty stright forward
 void writeToFile(Question & question);
-void createStruct(int questionNumber, Question &list);
+void createStruct(Question &list);
 void displayQuestion(char subject[]);
 void getQuestionStruct(char subject[]);
 void displayStruct(Question & question);
-void displayStructQuestion(Question & question);
+void displayStructQuestion(Question & question);//for testing only...
 //--------Fuctions---------
 int main()
 {
-	int numOfQuestions;
-	char nameOfQuestion[31];	
-	Question list[10];
+	int numOfQuestions;//numbers of questions the user wants to input, required for our for loop
+	Question list[numOfQuestions];//our array of questions, 
 	bool endProg = true;
 	//------Getting how many questions the user wants to enter-------
 	cout << "How many questions would your like to input?" << endl;
@@ -47,10 +49,12 @@ int main()
 	for(int i = 1; i <= numOfQuestions; ++i)
 	{
 		cout << "Creating problem " << i << endl;
-		createStruct(i, list[i]);
+		createStruct(list[i]);
 		writeToFile(list[i]);
 	}
 	//---------------------------------------------------------------
+
+	//--------This is the loop where the user is asked what questions they want to see---
 	while(endProg)
 	{
 
@@ -68,9 +72,10 @@ int main()
 	cout << "Thanks for using the program!" << endl;
 	return 0;
 }
-void createStruct(int questionNumber, Question & list)
+
+//this function is called in our for loop and edits the desired struct at the current index
+void createStruct(Question & list)
 {
-	list.questionNumber = questionNumber;
 
 	cout << "What is the subject: ";
 	cin.get(list.subject, SUBSIZE, '\n');
@@ -84,13 +89,21 @@ void createStruct(int questionNumber, Question & list)
 	cin.get(list.questionText, QUESTSIZE, '\n');
 	cin.ignore(QUESTSIZE, '\n');
 }
+
+
+//This displays the quetion by passing in the current struct that contains a question
 void displayStruct(Question & question)
 {
-	cout << "Date: " << question.date
-		<< "\nSubject: " << question.subject
-		<< "\nQUestion: " << question.questionText << endl;
-
+	if(question.date[0] != '\0')
+	{
+		//cout << strlen(question.date) << endl;
+		cout << "\nDate: " << question.date
+			<< "\nSubject: " << question.subject
+			<< "\nQuestion: " << question.questionText << endl;
+	}
 }
+
+//this just displays question text for testing purposes
 void displayStructQuestion(Question & question)
 {
 	cout << question.questionText << endl << endl;
@@ -98,11 +111,12 @@ void displayStructQuestion(Question & question)
 
 
 
-
-// VERY high iq qay of getting shit from the file
+//Much more improved way of getting the question from text file,
+//done by creating a struct of the question on that line, then displaying it if 
+//it matches a set criteria
 void getQuestionStruct(char subject[])
 {
-	Question question;
+	Question question;// the local struct we will be using to display the questions
 	ifstream infile;
 	infile.open("question.txt");
 	if(infile)
@@ -119,12 +133,35 @@ void getQuestionStruct(char subject[])
 
 		infile.get(question.questionText, QUESTSIZE, '|');
 		infile.ignore(1000, '\n');
-		if(strcmp(subject, question.subject) == 0 || strcmp(subject, question.date) == 0 || strcmp(subject, "all") == 0)
-			displayStructQuestion(question);
+		if(strcmp(subject, question.subject) == 0 || strcmp(subject, question.date) == 0 
+				|| strcmp(subject, "all") == 0)
+			displayStruct(question);
 	}
 
 
 
+}
+
+//This is our function that writes our desired question to our test file
+//does it in the order of        "| Date | Subject | Body of question | \n"
+void writeToFile(Question & question)
+{
+	ofstream out;
+
+	out.open("question.txt", ios::app);
+	if(out)
+	{
+		//cout << "Connected to file... " << endl;
+		//cout << "Order will be | Date | Subject | Body of question | " << endl;		
+		out 
+			<< question.date << "|"
+			<< question.subject << "|"
+			<< question.questionText << "|\n";
+	}
+	else
+		cerr << "Error writing to file..." << endl;
+	out.close();
+	out.clear();
 }
 
 
@@ -133,20 +170,20 @@ void getQuestionStruct(char subject[])
 
 
 
-
-
+//Don't even look at this it's not worth your time...
 
 /*      VERY LOW IQ VERSION OF GETTING SHIT FROM THE FILE...... works like 35% of the time
-	void displayQuestion(char subject[])
-	{	
-	char date[11];
-	char compare[30];
-	char question[QUESTSIZE];
-	ifstream infile;
-	infile.open("question.txt");
-	if(infile)
-	{
-	infile.peek();
+ *      this was a horrible way and it should never be used -_-
+ void displayQuestion(char subject[])
+ {	
+ char date[11];
+ char compare[30];
+ char question[QUESTSIZE];
+ ifstream infile;
+ infile.open("question.txt");
+ if(infile)
+ {
+ infile.peek();
 //cout << "Date:" << date << endl;
 //infile.ignore(100, '|');
 }
@@ -173,22 +210,25 @@ cout << "Our question: " << question << endl;
 
 }
 */
-void writeToFile(Question & question)
-{
-	ofstream out;
 
-	out.open("question.txt", ios::app);
-	if(out)
-	{
-		cout << "Connected to file... " << endl;
-		cout << "Oreder will be | Date | Subject | Body of question | " << endl;		
-		out 
-			<< question.date << "|"
-			<< question.subject << "|"
-			<< question.questionText << "|\n";
-	}
-	else
-		cerr << "Error writing to file..." << endl;
-	out.close();
-	out.clear();
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
