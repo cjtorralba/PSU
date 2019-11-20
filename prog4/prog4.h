@@ -34,7 +34,6 @@ class List
 		List(int length); //Constructor, taking in an int as an argument to create dynamic array
 		~List();//destructor
 		void initQuestion(int index);//initiliazes question at x index, using the Question initQuestion();
-		void initList(); //initiliazes list that the user will enter questions to
 		void initFileList(); //initializes list of questions from external file should they want to view them
 		void write(int index); // writes question at index x to external file
 		void compare(char word[]);//compares using, the compare in the Question class

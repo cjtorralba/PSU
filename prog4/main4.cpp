@@ -1,5 +1,4 @@
 
-
 #include "prog4.h"
 using namespace std;
 
@@ -17,7 +16,6 @@ int  main()
 	{
 		list.initQuestion(i);
 		list.write(i);
-
 	}
 
 	cout << "Would you like to access the questions in the file? <y/n>" << endl;
