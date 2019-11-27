@@ -6,12 +6,20 @@ Question::Question()
 	questionBody[0] = '\0';
 	date[0] = '\0';
 }
+
+
+
+
 //Compares and displays question if the date, or subject is equal to input
 void Question::compare(char word[])
 {
-	if(strcmp(word,date) == 0 || strcmp(word, subject) == 0 || strcmp(word, "all") == 0)
+	if(strcmp(word, date) == 0 || strcmp(word, subject) == 0 || strcmp(word, "all") == 0)
 		display();
 }
+
+
+
+
 //-----------This method uses user input to initilaize a question------------
 void Question::initQuestion()
 {
@@ -57,6 +65,14 @@ void Question::writeToFile()
 	else
 		cerr << "Could not open or write to file..." << endl;
 }
+//-----Constructor--------
+List::List()
+{
+	list = NULL;
+	fileList = NULL;
+	arrayLength = 0;
+	fileLength = 0;
+}
 
 
 //---------Accesses question at sepcific index in the lis and runs the writeToFile method on it--------
@@ -82,18 +98,20 @@ void List::compare(char word[])
 
 
 //---------Initializes the list, with a set length for how many questions the user wants to input---
-List::List(int length)
+void List::init(int length)
 {
-	list = new Question[length];
-	fileList = NULL;
-	arrayLength = length;
-	fileLength = 0;
+	if(length > 0)
+		list = new Question[length];
+	else
+		list = NULL;
 }
 //List destructor
 List::~List()
 {
 	delete [] list;
 	delete [] fileList;
+	list = NULL;
+	fileList = NULL;
 	arrayLength = 0;
 	fileLength = 0;
 }
@@ -106,7 +124,10 @@ void List::initFileList()
 	if(in)
 		in.peek();
 	else
+	{
 		cerr << "Couldn't open file..." << endl;
+		return;
+}
 	while(!in.eof())
 	{
 
@@ -144,7 +165,11 @@ void List::initFileList()
 void List::initQuestion(int index)
 {
 	list[index].initQuestion();
+	++arrayLength;
 }
-
+bool List::hasQuestions()
+{
+	return !(fileList == NULL && list == NULL);
+}
 
 
