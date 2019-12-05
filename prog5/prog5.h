@@ -7,7 +7,7 @@ struct node
 	char* name;
 	char* description;
 	char* complete;
-	int priority;
+	int* priority;
 	node* next;
 	~node();
 };
@@ -25,6 +25,10 @@ class List
 		void displayPriority(int priority, node* search);
 		int length();
 		bool release();
+
+		bool test();
+
+
 	private:
 		node* head;
 };
