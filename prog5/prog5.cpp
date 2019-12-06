@@ -20,32 +20,31 @@ List::~List()
 {
 	delete head;
 }
-
-
-
-/*
-List::~List()
+int List::length()
 {
+	int length = 0;
 	node* cur = head;
 	node* prev;
+	if(head == NULL)
+		return 0;
+	else if(head->next == NULL)
+		return 1;	
+	else
+	{
 		while(cur->next != NULL)
 		{
 			prev = cur;
 			cur = cur->next;
-			if(cur->next == NULL)
-			{
-				delete cur;
-				prev->next = NULL;
-				if(head != NULL)
-					cur = head;
-			}
+			++length;
+		}	
 
-		}
-	if(head->next == NULL)
-		delete head;
-	
+	}
+	return length+1;
+
+
+
 }
-*/
+
 void List::display()
 {
 	node* cur;
@@ -95,7 +94,7 @@ bool List::remove(char search[])
 		return false;
 	}
 
-	else if(head->next == NULL && strcmp(head->name, search) == 0)
+	if(head->next == NULL && strcmp(head->name, search) == 0)
 	{
 		delete [] head->name;
 		delete [] head->description;
@@ -132,129 +131,7 @@ bool List::remove(char search[])
 
 
 
-
-//Adds and sorts
-/*
-   bool List::add()
-   {
-   char tempName[200];
-   char tempDescription[200];
-   char tempComplete[100];
-
-   cout << "Name of item: ";
-   cin.get(tempName, 200, '\n');
-   cin.ignore(200, '\n');
-
-   cout << "\nDescription of the task: ";
-   cin.get(tempDescription, 200, '\n');
-   cin.ignore(200, '\n');
-
-   cout << "\nDate you want this task completed by: ";
-   cin.get(tempComplete, 100, '\n');
-   cin.ignore(100, '\n');
-
-
-   if(head == NULL)
-   {
-   head = new node;
-
-   cout << "\nPriority <0-10>: ";
-   cin >> head->priority;
-   cin.ignore(100, '\n');
-
-   head->name = new char[strlen(tempName)+1];
-   head->description = new char[strlen(tempDescription)+1];
-   head->complete = new char[strlen(tempComplete)+1];
-
-   strcpy(head->name, tempName);
-   strcpy(head->description, tempDescription);
-   strcpy(head->complete, tempComplete);
-
-   head->next = NULL;
-   return true;
-   }
-   else{
-   node* temp;
-   node* cur;	
-   node* prev;
-
-   temp = new node;
-
-
-   cout << "\nPriority <0-10>: ";
-   cin >> temp->priority;
-   cin.ignore(100, '\n');
-
-   temp->name = new char[strlen(tempName)+1];
-   temp->description = new char[strlen(tempDescription)+1];
-   temp->complete = new char[strlen(tempComplete)+1];
-
-   strcpy(temp->name, tempName);
-   strcpy(temp->description, tempDescription);
-   strcpy(temp->complete, tempComplete);
-
-
-
-//really sketch way of sorting i guess, but if it works it works so -_-
-if(head->next ==  NULL)
-{
-cur = head;
-if(strcmp(temp->name, head->name) > 0)
-{
-head->next = temp;
-temp->next = NULL;
-return true;
-}
-else
-{
-	head = temp;
-	head->next = cur;
-	cur->next = NULL;
-	return true;
-}
-}
-
-
-else
-{
-	cur = head;
-	prev = cur;
-	while(cur->next != NULL)
-	{
-		prev = cur;
-		cur = cur->next;
-		if(strcmp(temp->name, prev->name) == 0)
-		{
-			temp->next = cur->next;
-			prev->next = temp;
-			temp = NULL;
-			return true;
-		}
-		else if(strcmp(temp->name, cur->name) < 0 && 
-				strcmp(temp->name, prev->name) >= 0)
-		{
-			prev->next = temp;
-			temp->next = cur;
-			temp = NULL;
-			return true;
-		}
-		else if(strcmp(temp->name, cur->name) >= 0 && 
-				cur->next == NULL)
-		{
-			cur->next = temp;
-			temp->next = NULL;
-			temp = NULL;
-			return true;
-		}
-
-	}
-}
-}
-return false;
-}
-*/
-
-bool List::test()
+bool List::add()
 {
 	char tempName[200];
 	char tempDescription[200];
@@ -420,9 +297,35 @@ bool List::test()
 		}
 	}
 }	
+bool List::writeToFile(node* node)
+{
+	ostream out;
+	out.open("ToDo.txt", ios::app);
+	if(!out)
+		cerr << "\n\nCould not write to file\n\n";
+	else
+	{
+		out << node->name << "|" 
+		<< node->description << "|"
+		<< node->priority << "|"
+		<< node->complete << "|\n";
+	}
 
+}
 
+void List::initFile()
+{
+	istream in;
+	in.open("ToDo.txt");
 
+	if(!in.peek())
+		cerr << "\n\nCould not read from file... \n\n";
+	else
+	{
+		in
+
+	}
+}
 
 
 

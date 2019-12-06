@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <fstream>
 using namespace std;
 
 struct node
@@ -17,18 +18,22 @@ class List
 	public:
 		List();	~List();
 
+		node* getHead();	
+
+		void initFile();
+		bool writeToFile();
+
 		bool add();
 		bool remove(char search[]);
 
-		node* getHead();	
 		void display();
 		void displayPriority(int priority, node* search);
+
 		int length();
+
 		bool release();
 
-		bool test();
-
-
+		//bool test();
 	private:
 		node* head;
 };
