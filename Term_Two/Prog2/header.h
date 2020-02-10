@@ -19,6 +19,7 @@ struct trip_section
 
 struct node
 {
+	~node();
 	node* next;
 	trip_section* stack;
 };

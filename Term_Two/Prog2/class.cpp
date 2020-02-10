@@ -6,6 +6,13 @@
 
 //=======================struct stuff===============================
 
+node::~node()
+{
+	delete [] stack;
+	next = NULL;
+}
+
+
 trip_section::trip_section()
 {
 	next = NULL;
@@ -19,18 +26,11 @@ trip_section::trip_section()
 
 trip_section::~trip_section()
 {
-	cout << "start trip destructor" << endl;
 	delete [] name;
 	delete [] traffic;
 	delete [] notes;
 	delete [] landmarks;
 	next = NULL;
-
-	name = NULL;
-	traffic = NULL;
-	notes = NULL;
-	landmarks = NULL;
-	cout << " Finish trip destructor" << endl;
 }
 
 bool trip_section::set_trip(char* nameAdd, char* trafficAdd, char* notesAdd, char* landmarksAdd, int lengthAdd)
@@ -89,24 +89,20 @@ travel::~travel()
 			delete rear;
 			
 		}
-
-
-		else if(rear->next != rear)
+		else
 		{
-			cout << "in travel destructor" << endl;
 			cur = rear->next;
 			rear->next = NULL;
 			while(cur->next != NULL)
 			{
 				prev = cur;
 				cur = cur->next;
-				delete prev;
 				prev->next = NULL;
+				delete prev;
 			}
+			rear->next = NULL;
 			delete rear;
-			cout << "out this travel destructor" << endl;
 		}
-		cout << "out travel destructor" << endl;
 	}
 }
 
@@ -175,10 +171,8 @@ bool travel::dequeue()
 
 bool travel::enqueue(trip_section* trip)
 {
-	cout << "in enqueue" << endl;
 
 	trip_section* temp;
-	
 	if(rear == NULL)
 	{
 		rear = new trip_section;
@@ -194,8 +188,6 @@ bool travel::enqueue(trip_section* trip)
 		strcpy(rear->notes, trip->notes);
 		strcpy(rear->landmarks, trip->landmarks);
 		rear->length = trip->length;
-		cout << "out enqueue" << endl;
-		cout << "rear->next:" << rear->next->name << endl;
 
 		return true;
 	}
@@ -249,18 +241,22 @@ return_trip::~return_trip()
 	node* temp;
 	if(head)
 	{
-		cout << "in stack destructor" << endl;
-		while(head->next != NULL)
+		if(head->next == NULL)
 		{
-			temp = head;
-			head = head->next;
-
-			delete [] temp->stack;
-			temp->next = NULL;
-		}
-			delete [] head->stack;
+			delete head;
 			head = NULL;
-		cout << "out stack destructo" << endl;
+		}
+		else
+		{
+			while(head->next != NULL)
+			{
+				temp = head;
+				head = head->next;
+
+				delete [] temp->stack;
+				temp->next = NULL;
+			}
+		}
 	}
 }
 
@@ -336,7 +332,6 @@ bool return_trip::pop()
 
 bool return_trip::push(trip_section* trip)
 {
-	cout << "in push" << endl;
 	node* temp;
 
 	if(!head)
@@ -356,6 +351,7 @@ bool return_trip::push(trip_section* trip)
 		strcpy(head->stack[top_index].notes, trip->notes);
 		strcpy(head->stack[top_index].landmarks, trip->landmarks);
 		head->stack[top_index].length = trip->length;
+
 
 		++top_index;
 		return true;
@@ -383,6 +379,8 @@ bool return_trip::push(trip_section* trip)
 			strcpy(head->stack[top_index].landmarks, trip->landmarks);
 			head->stack[top_index].length = trip->length;
 
+			delete temp;
+
 			++top_index;
 			return true;
 		}
@@ -399,6 +397,8 @@ bool return_trip::push(trip_section* trip)
 			strcpy(head->stack[top_index].notes, trip->notes);
 			strcpy(head->stack[top_index].landmarks, trip->landmarks);
 			head->stack[top_index].length = trip->length;
+
+			delete temp;
 
 			++top_index;
 			return true;

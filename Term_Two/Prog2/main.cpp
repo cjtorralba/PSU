@@ -48,7 +48,7 @@ int main()
 
 
 		circ1.enqueue(&trip);
-		stack1.push(&trip);
+//		stack1.push(&trip);
 
 		cout << "Would you like to add another? <y,n>: ";
 		cin >> input;   cin.ignore(100, '\n');
@@ -58,6 +58,8 @@ int main()
 		if(input == 'n')
 			exit = true;
 	}while(!exit);
+
+	stack1.push(&trip);
 
 	circ1.display();
 
@@ -86,7 +88,7 @@ int main()
 		trip.set_trip(name, traffic, notes, landmarks, length);
 
 		circ2.enqueue(&trip);
-		stack2.push(&trip);
+//		stack2.push(&trip);
 
 		cout << "Would you like to add another? <y,n>: ";
 		cin >> input;   cin.ignore(100, '\n');
@@ -94,6 +96,7 @@ int main()
 		if(input == 'n')
 			exit = true;
 	}while(!exit);
+	stack2.push(&trip);
 
 	circ2.display();
 
@@ -106,10 +109,10 @@ int main()
 
 	cout << "Hit enter to see the trip back home via route 1:" << endl;
 	cin; cin.ignore(100, '\n');
-	stack1.display();
+//	stack1.display();
 
 	cout << "Hit enter to see the trip back home via route 2:" << endl;   cin; cin.ignore(100, '\n');
-	stack2.display();
+//	stack2.display();
 
 	cout << "Please choose a route <1,2>: ";
 	cin >> route;   cin.ignore(100, '\n');
