@@ -4,7 +4,7 @@
 
 
 
-
+//=======================struct stuff===============================
 
 trip_section::trip_section()
 {
@@ -19,11 +19,18 @@ trip_section::trip_section()
 
 trip_section::~trip_section()
 {
+	cout << "start trip destructor" << endl;
 	delete [] name;
 	delete [] traffic;
 	delete [] notes;
 	delete [] landmarks;
 	next = NULL;
+
+	name = NULL;
+	traffic = NULL;
+	notes = NULL;
+	landmarks = NULL;
+	cout << " Finish trip destructor" << endl;
 }
 
 bool trip_section::set_trip(char* nameAdd, char* trafficAdd, char* notesAdd, char* landmarksAdd, int lengthAdd)
@@ -46,12 +53,23 @@ bool trip_section::set_trip(char* nameAdd, char* trafficAdd, char* notesAdd, cha
 	traffic = new char[strlen(trafficAdd) + 1];
 	notes = new char[strlen(notesAdd) + 1];
 	landmarks = new char[strlen(landmarksAdd) + 1];
+
+	strcpy(name, nameAdd);
+	strcpy(traffic, trafficAdd);
+	strcpy(notes, notesAdd);
+	strcpy(landmarks, landmarksAdd);
 	length = lengthAdd;
+
+
 	return true;	
 }
 
+//===========================End of struct stuff=========================
 
 
+
+
+//===================================circular linked list stuff==========================
 travel::travel()
 {
 	rear = NULL;
@@ -65,17 +83,31 @@ travel::~travel()
 
 	if(rear)
 	{
-		cur = rear->next;
-		rear->next = NULL;
-		while(cur->next != NULL)
+		if(rear->next == rear)
 		{
-			prev = cur;
-			cur = cur->next;
-			delete prev;
-			prev->next = NULL;
+			rear->next = NULL;
+			delete rear;
+			
 		}
-		delete rear;
+
+
+		else if(rear->next != rear)
+		{
+			cout << "in travel destructor" << endl;
+			cur = rear->next;
+			rear->next = NULL;
+			while(cur->next != NULL)
+			{
+				prev = cur;
+				cur = cur->next;
+				delete prev;
+				prev->next = NULL;
+			}
+			delete rear;
+			cout << "out this travel destructor" << endl;
 		}
+		cout << "out travel destructor" << endl;
+	}
 }
 
 
@@ -101,7 +133,7 @@ bool travel::display()
 
 
 
-trip_section* peek()
+trip_section* travel::peek()
 {
 	if(!rear)
 		return NULL;
@@ -111,8 +143,7 @@ trip_section* peek()
 }
 
 
-
-bool travel_dequeue()
+bool travel::dequeue()
 {
 	trip_section* cur;
 
@@ -144,9 +175,11 @@ bool travel_dequeue()
 
 bool travel::enqueue(trip_section* trip)
 {
+	cout << "in enqueue" << endl;
 
 	trip_section* temp;
-	if(rear = NULL)
+	
+	if(rear == NULL)
 	{
 		rear = new trip_section;
 		rear->next = rear;
@@ -161,13 +194,15 @@ bool travel::enqueue(trip_section* trip)
 		strcpy(rear->notes, trip->notes);
 		strcpy(rear->landmarks, trip->landmarks);
 		rear->length = trip->length;
+		cout << "out enqueue" << endl;
+		cout << "rear->next:" << rear->next->name << endl;
 
 		return true;
 	}
 	else
 	{
 		temp = rear->next;
-		rear->next = new node;
+		rear->next = new trip_section;
 		rear = rear->next;
 		rear->next = temp;
 
@@ -188,6 +223,7 @@ bool travel::enqueue(trip_section* trip)
 }
 
 
+//=========================================End of circular linked list stuff============================
 
 
 
@@ -199,8 +235,7 @@ bool travel::enqueue(trip_section* trip)
 
 
 
-
-
+//=======================================Start of stack stuff=========================================
 
 
 return_trip::return_trip()
@@ -214,6 +249,7 @@ return_trip::~return_trip()
 	node* temp;
 	if(head)
 	{
+		cout << "in stack destructor" << endl;
 		while(head->next != NULL)
 		{
 			temp = head;
@@ -222,7 +258,9 @@ return_trip::~return_trip()
 			delete [] temp->stack;
 			temp->next = NULL;
 		}
-		delete [] head->stack;
+			delete [] head->stack;
+			head = NULL;
+		cout << "out stack destructo" << endl;
 	}
 }
 
@@ -259,16 +297,17 @@ trip_section* return_trip::peek()
 	if(!head)
 		return NULL;
 	else
-		return head->stack[top_index-1];
+		return &head->stack[top_index-1];
 }
 
 bool return_trip::pop()
 {
+	node* temp;
 	if(!head)
 		return false;
 	else
 	{
-		if(head->next == NUll && top_index == 0)
+		if(head->next == NULL && top_index == 0)
 		{
 			top_index = 0;
 			delete head;
@@ -297,8 +336,9 @@ bool return_trip::pop()
 
 bool return_trip::push(trip_section* trip)
 {
+	cout << "in push" << endl;
 	node* temp;
-	
+
 	if(!head)
 	{
 		head = new node;
@@ -368,3 +408,8 @@ bool return_trip::push(trip_section* trip)
 	}
 	return false;
 }
+
+
+
+
+//===============================================End of stack stuff=====================================

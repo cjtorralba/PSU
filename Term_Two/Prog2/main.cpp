@@ -1,4 +1,4 @@
-nclude "header.h"
+#include "header.h"
 
 
 int main()
@@ -46,6 +46,7 @@ int main()
 
 		trip.set_trip(name, traffic, notes, landmarks, length);
 
+
 		circ1.enqueue(&trip);
 		stack1.push(&trip);
 
@@ -54,9 +55,11 @@ int main()
 
 
 
-		f(input == 'n')
+		if(input == 'n')
 			exit = true;
 	}while(!exit);
+
+	circ1.display();
 
 	cout << "Please enter the information for the second trip" << endl;
 
@@ -92,7 +95,7 @@ int main()
 			exit = true;
 	}while(!exit);
 
-
+	circ2.display();
 
 	cout << "This is the trip to your destination via route 1:" << endl;
 	circ1.display();
@@ -113,18 +116,18 @@ int main()
 
 	if(route == 1)
 	{
-		circ2.~travel();
-		stack2.~return_trip();
+
 
 
 
 	}
 	else if(route == 2)
 	{
-		circ1.~travel();
-		stack1.~return_trip();
+//		circ1.~travel();
+//		stack1.~return_trip();
 
 	}
+	cout << "At end of program" << endl;
 
 
 

@@ -35,7 +35,6 @@ class return_trip
 		bool pop();
 		trip_section* peek();
 		bool display();
-		bool copy(trip_section* trip, trip_section* to_copy);
 
 };
 
@@ -51,7 +50,6 @@ class travel
 		bool enqueue(trip_section* trip_section);
 		bool dequeue();
 		trip_section* peek();              bool display();
-		bool copy(trip_section* trip, trip_section* to_copy);
 
 };
 
