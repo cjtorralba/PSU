@@ -13,6 +13,8 @@ struct meal
 	int rating;	//rating 1-10
 	char* review;	//review
 	bool type;	//true = cart    false = resturant
+	bool copy(meal* to_add);
+	void display();
 };
 
 struct node
@@ -26,10 +28,11 @@ class table
 {
 	public:
 		table(int size = 101);	//~table();
-		int add(char* key_value, const meal*& to_add);
+		bool add(char* key_value, meal*& to_add);
 		int remove(meal& to_remove);
 		int removeAll(char* name);
 		int retrieve(char* key_word);
+		int display();	//displays and returns number of nodes;
 
 		int hash_function(char* key) const;
 
