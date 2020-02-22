@@ -11,6 +11,7 @@ table myTable;
 
 
 meal meal1;
+meal1.mealName = "chicken";
 meal1.name = "name";
 meal1.review = "review";
 meal1.rating = 5;
@@ -28,15 +29,23 @@ pmeal = &meal1;
 
 myTable.add(pmeal->name, pmeal);
 
-meal1.name = "eman";
+meal1.mealName = "soup";
 
 
 myTable.add(pmeal->name, pmeal);
 
 
+
 int total = myTable.display();
 
 cout << "Total number of nodes in table: " << total << endl;
+
+cout << "Deleting chicken =====================================================" << endl;
+
+myTable.remove("chicken");
+
+
+myTable.display();
 
 
 return 0;
