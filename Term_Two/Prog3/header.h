@@ -14,26 +14,33 @@ struct meal
 	int rating;	//rating 1-10
 	char* review;	//review
 	bool type;	//true = cart    false = resturant
+
+
+
 	bool copy(meal* to_add);	//copys meals so its easier to add them
 	void display();		//displays a meal
+	~meal();
 };
 
 struct node
 {
-	meal my_meal;
+	meal* my_meal;
 	node* next;
+	~node();
 };
+
 
 
 class table
 {
 	public:
-		table(int size = 101);	//~table();
-		bool add(char* key_value, meal*& to_add);
+		table(int size = 101);	~table();
+		bool add(char* key_value, meal* to_add);
 		int remove(char* meal_name);
 		int removeAll(char* name);
 		meal* retrieve(char* key_word);
-		int display();	//displays and returns number of nodes;
+		int display(char* meal_name);	//displays and returns number of nodes;
+		int displayAll();
 
 		int hash_function(char* key) const;
 

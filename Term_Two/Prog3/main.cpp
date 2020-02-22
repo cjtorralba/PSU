@@ -2,51 +2,37 @@
 
 int main()
 {
-table myTable;
+	table myTable;
+
+	meal first;
+	first.mealName = new char[100];
+	first.name = new char[100];
+	first.review = new char[100];
+
+	for(int i = 0; i < 2; ++i)
+	{
+		cout << "Meal name: " << endl;
+		cin.get(first.mealName, 100, '\n');	cin.ignore(100, '\n');
+
+		cout << endl << "Establishment name: " << endl;
+		cin.get(first.name, 100, '\n');	cin.ignore(100, '\n');
+
+		cout << "Review: " << endl;
+		cin.get(first.review, 100, '\n');	cin.ignore(100, '\n');
+
+		cout << "Approximate price: " << endl;
+		cin >> first.price;
+
+		cout << "Rating <1-10>: " << endl;
+		cin >> first.rating;
+
+		first.type = true;
 
 
 
+		myTable.add(first.mealName, &first);
+	}
+	myTable.displayAll();
 
-
-
-
-meal meal1;
-meal1.mealName = "chicken";
-meal1.name = "name";
-meal1.review = "review";
-meal1.rating = 5;
-meal1.price = 6;
-meal1.type = true;
-
-meal* pmeal;
-pmeal = &meal1;
-
-
-
-
-
-
-
-myTable.add(pmeal->name, pmeal);
-
-meal1.mealName = "soup";
-
-
-myTable.add(pmeal->name, pmeal);
-
-
-
-int total = myTable.display();
-
-cout << "Total number of nodes in table: " << total << endl;
-
-cout << "Deleting chicken =====================================================" << endl;
-
-myTable.remove("chicken");
-
-
-myTable.display();
-
-
-return 0;
+	return 0;
 }

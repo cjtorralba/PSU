@@ -1,27 +1,4 @@
 #include "header.h"
-/*
-table(int size = 101);	//~table();
-		add(meal*& meal);
-		remove(meal*& meal);
-		removeAll(char* name);
-		retrieve(char* key_word);
-
-		int hash_function(char* key) const;
-*/
-
-/*
-meal::meal(char* myname, char* myreview, int myprice, int myrating, bool mytype)
-{
-	name = new char[strlen(myname) + 1];
-	review = new char[strlen(myreview) + 1];
-
-	strcpy(name, myname);
-	strcpy(review, myreview);
-	rating = myrating;
-	price = myprice;
-	type = mytype;
-}
-*/
 
 
 
@@ -59,7 +36,23 @@ void meal::display()
 	else
 		cout << "Type: Restuarant" << endl;
 }
+meal::~meal()
+{
+	delete [] mealName;
+	delete [] name;
+	delete [] review;
+	
+	mealName = NULL;
+	name = NULL;
+	review = NULL;
+}
 
+node::~node()
+{
+	delete next;
+	delete my_meal;
+
+}
 
 table::table(int size)
 {
@@ -70,6 +63,15 @@ table::table(int size)
 	for(i = 0; i < hash_table_size; ++i)
 		hash_table[i] = NULL;
 }
+table::~table()
+{
+	int i;
+	for(i = 0; i < hash_table_size; ++i)
+		delete hash_table[i];
+	delete [] hash_table;
+
+}
+
 int table::hash_function(char* key) const
 {
 	int i;
@@ -81,7 +83,7 @@ int table::hash_function(char* key) const
 
 
 
-bool table::add(char* key_value, meal *& to_add)
+bool table::add(char* key_value, meal * to_add)
 {
 	int key = hash_function(key_value);	//position in hash_table
 	node* temp;	//temp pointer
@@ -93,14 +95,17 @@ bool table::add(char* key_value, meal *& to_add)
 		temp = hash_table[key];
 
 		hash_table[key] = new node;
-		hash_table[key]->my_meal.copy(to_add);
+		hash_table[key]->my_meal = new meal;
+		(*hash_table[key]->my_meal).copy(to_add);
 		hash_table[key]->next = temp;
 		return true;
 	}
 	else
 	{
 		hash_table[key] = new node;
-		hash_table[key]->my_meal.copy(to_add);
+		hash_table[key]->my_meal = new meal;
+		(*hash_table[key]->my_meal).copy(to_add);
+		
 		hash_table[key]->next = NULL;
 		return true;
 	}
@@ -109,9 +114,22 @@ bool table::add(char* key_value, meal *& to_add)
 
 
 //returns amount of total nodes in entire hash_table
-int table::display()
+int table::display(char* meal_name)
 {
-	int numNode = 0;
+
+	int key = hash_function(meal_name);
+
+	if(hash_table[key] != NULL)
+		(*hash_table[key]->my_meal).display();
+		
+
+
+	/*
+		*/
+}
+int table::displayAll()
+{
+int numNode = 0;
 	node* temp;
 	int i;
 
@@ -127,14 +145,13 @@ int table::display()
 			{
 				++numNode;
 				cout << numNode << endl;
-				temp->my_meal.display();
+				(*temp->my_meal).display();
 				temp = temp->next;
 			}while(temp != NULL);
 		}
 	}
 	return numNode;
 }
-
 int table::remove(char* meal_name)
 {
 
@@ -151,7 +168,7 @@ int table::remove(char* meal_name)
 
 			while(cur != NULL)
 			{
-				if(cur == hash_table[i] && strcmp(meal_name, cur->my_meal.mealName) == 0)
+				if(cur == hash_table[i] && strcmp(meal_name, cur->my_meal->mealName) == 0)
 				{
 					hash_table[i] = cur->next;
 					delete cur;
@@ -160,7 +177,7 @@ int table::remove(char* meal_name)
 				else
 				{
 					cur = cur->next;
-					if(strcmp(meal_name, cur->my_meal.mealName) == 0)
+					if(strcmp(meal_name, cur->my_meal->mealName) == 0)
 					{
 						prev->next = cur->next;
 						delete cur;
@@ -191,43 +208,54 @@ int table::removeAll(char* name)
 	{
 		if(hash_table[i] != NULL)
 		{
-			//special case if its the first node in the list
-			if(strcmp(hash_table[i]->my_meal.name, name) == 0)
+			cur = hash_table[i];
+			prev = cur;
+
+			while(cur != NULL)
 			{
-				node* cur = hash_table[i];
-				hash_table[i] = cur->next;
-				delete cur;
-				++deleted;
-			}
-			else
-			{
-				cur = hash_table[i];
-				prev = cur;
-				while(cur != NULL)
+
+				//special case if its the first node in the list
+				if(cur == hash_table[i] && strcmp(hash_table[i]->my_meal->name, name) == 0)
+				{
+					if(cur->next == NULL)
+						hash_table[i] = NULL;
+					else
+						hash_table[i] = cur->next;
+
+					delete cur;
+					cur = hash_table[i];
+					++deleted;
+				}
+				else
 				{
 
-					if(strcmp(cur->my_meal.name, name) == 0)
+					cur = cur->next;
+					if(cur && strcmp(cur->my_meal->name, name) == 0)
 					{
-						cur = cur->next;
+						if(cur->next = NULL)
+							prev->next = NULL;
+						else
+							prev->next = cur->next;
 						delete cur;
-					}	
-
-
-
-
+						++deleted;
+						cur = hash_table[i];
+					}
+					else
+						prev = cur;
 				}
 			}
-
 		}
-
-
-
-
 	}
+	return deleted;
 
 }
 
-meal* table::retrieve(char* key_word)
+meal* table::retrieve(char* meal_name)
 {
-	return &hash_table[hash_function(key_word)]->my_meal;
+	int key = hash_function(meal_name);
+
+	if(hash_table[key] != NULL)
+		return hash_table[key]->my_meal;
+	else 
+		return NULL;	
 }
