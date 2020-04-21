@@ -8,6 +8,18 @@ title::title(char* name, char* date) : name(name), date(date) {} //constructor w
 
 title::title(const title & toCopy) : name(toCopy.name), date(toCopy.date) {}
 
+int title::sumCharName()
+{
+	int sum;
+	int length = strlen(this->name);
+	for(int i = 0; i < length; ++i)
+		sum += this->name[i];
+	return sum;
+}
+
+
+
+
 
 void title::display()
 {
@@ -131,6 +143,9 @@ void video::display()
 
 
 //====================Live stream functions and constructors==============================
+
+
+liveStream::liveStream() : video(), instructor(NULL), topic(NULL) { }
 
 liveStream::liveStream(char* name, char* date, char* description, double length, char* instructor, char* topic) :
 	video(name, date, description, length), instructor(instructor), topic(topic) {}	

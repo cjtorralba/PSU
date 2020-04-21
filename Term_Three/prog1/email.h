@@ -1,29 +1,24 @@
 #include "title.h"
 
-
-class email : title
+class email : public title
 {
 	public:
 		email();	//~email();
 		email(const email & toCopy);
-		email(char* name, char* date, char* subject, char* body, char* sender, char* recipiant, double timeSent, bool containsVideo, const video & attached);
+		
 
-		void changeEmail(const email & toChange);
-
+		email(char* name, char* date, char* subject, char* body, char* sender, char* recipiant, double timeSent);
 
 		void display();
 
 
 
 	protected:
-		char* subject;
-		char* 	body;
-		char* sender;
+		char*    subject;
+		char* 	    body;
+		char*     sender;
 		char*  recipiant;
-
-		double timeSent;
-		bool containsVideo;
-		class video & attached;
+		double  timeSent;
 };
 
 
@@ -34,11 +29,11 @@ class email : title
 
 
 
-class essay : title
+class essay : public title
 {
 	public:
 		essay();	//~essay();
-		essay(char* author, char* dateWritten, char* body, char* dueDate, int wordLength);
+		essay(char* name, char* date, char* body, char* dueDate, int wordLength);
 		essay(const essay & toCopy);
 
 		void display();
@@ -46,7 +41,8 @@ class essay : title
 
 
 	protected:
-		char* body, dueDate;
+		char*     body;
+		char*  dueDate;
 		int wordLength;
 
 
@@ -54,3 +50,6 @@ class essay : title
 
 
 };
+
+
+

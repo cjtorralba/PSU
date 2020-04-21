@@ -21,16 +21,22 @@ class title
 		void setTitleName(char* name);
 		void setTitleDate(char* date);
 
+		int sumCharName();
+
+		char* getTitle();
+		
 	protected:
-		char* name;
 		char* date;
+
+
+		char* name;
 };
 
 
 
 
 
-class video : title
+class video : public title
 {
 
 	public:
@@ -48,7 +54,7 @@ class video : title
 		double length;
 };
 
-class liveStream : video
+class liveStream : public video
 {
 	public:
 		liveStream();	//~liveStream();
