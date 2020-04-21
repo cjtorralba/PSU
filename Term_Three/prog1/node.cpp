@@ -25,6 +25,44 @@ node* node::returnNext()
 	return next;
 }
 
+
+/*
+ * =========Adding our learning method objects to the nodes=======
+ * 0 = video
+ * 1 = liveStream
+ * 2 = email
+ * 3 = essay
+ */
+
+
+
+void node::addVideo(video& toAdd)   
+{
+	myVideo = new video(toAdd);	
+	type = 0;
+}
+
+void node::addStream(liveStream& toAdd)   
+{
+	myStream = new liveStream(toAdd);
+	type = 1;
+}
+
+void node::addEmail(email& toAdd)  
+{
+	myEmail = new email(toAdd);
+	type = 2;
+}	
+
+void node::addEssay(essay& toAdd)   
+{
+	myEssay = new essay(toAdd);
+	type = 3;
+}
+
+
+
+
 //out display function making use of the type integer
 bool node::displayNode()
 {
@@ -42,21 +80,20 @@ bool node::displayNode()
 	switch(tempType)
 	{
 		case 0:
-
-
+			myVideo->display();
+			displayed = true;
 			break;
 		case 1:
-
-
+			myStream->display();
+			displayed = true;
 			break;
 		case 2:
-
-
+			myEmail->display();
+			displayed = true;
 			break;
 		case 3: 
-
-
-
+			myEssay->display();
+			displayed = true;
 			break;
 
 		case -1:
@@ -64,55 +101,25 @@ bool node::displayNode()
 
 		default:
 			break;
-
-
-
-
-
-
 	}
-
-
-
-
-
-
+	return displayed;
 }
 
-
-//=========Adding our learning method objects to the nodes=======
-
-void node::addVideo(video& toAdd)   
-{
-	myVideo = new video(toAdd);	
-	type = 0;
-}
-
-void node::addStream(liveStream& toAdd)   
-{
-	myStream = new liveStream(toAdd);
-	type = 1;
-}
-
-void node::addEssay(essay& toAdd)   
-{
-	myEssay = new essay(toAdd);
-	type = 2;
-}
-
-void node::addEmail(email& toAdd)  
-{
-	myEmail = new email(toAdd);
-	type = 3;
-}	
 
 //===============================================================
 
 
 
-table::table(int size = 4)	//setting our table to size four since we only have four classes we're dealing with
+
+
+//=====================Table constructor and functions ====================A
+
+	
+	
+table::table()	
 {
 	int i;
+	size = 4;	//setting our table to size four since we only have four classes we're dealing with
 
 	nodeTable = new node*[size];	//allocating new array of node of size N
 
@@ -153,7 +160,43 @@ bool table::addNode(node& toAdd)
 }
 
 
+void table::displayAll()
+{
+	int i;
+	node* cur;	//temp node for traversing throuh the list
 
+	for(i = 0; i < size; ++i)
+	{
+		/*
+		 * 0 = video
+		 * 1 = liveStream
+		 * 2 = email
+		 * 3 = essay
+		 */	
+
+		if(nodeTable[i])	//if we have nodes in this element
+		{			
+			switch(i)	//our i counter corresponds to what type of object we are dealing with
+			{
+				case 0:
+					cout << "Videos: " << endl;
+					break;
+				case 1:
+					cout << "LiveStreams: " << endl;
+					break;
+				case 2:
+					cout << "Essay: " << endl;
+					break;
+				case 3:
+					cout << "Emails: " << endl;
+					break;
+			}	
+
+			for(cur = nodeTable[i]; cur != NULL; cur = cur->returnNext())
+					cur->displayNode();
+		}
+	}
+}
 
 
 

@@ -13,7 +13,7 @@ class node
 		void addEmail(email& toAdd);
 		void addEssay(essay& toAdd);
 
-		void displayNode();
+		bool displayNode();
 
 		node* returnNext();
 
@@ -46,8 +46,10 @@ class node
 class table
 {
 	public:
-		table(int size);	//~table();
+		table();	//calls the constructor below
+		//~table();
 		bool addNode(node& toAdd);
+		void displayAll();
 
 	protected:
 		node** nodeTable;

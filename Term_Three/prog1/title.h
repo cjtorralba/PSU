@@ -20,10 +20,6 @@ class title
 		void changeTitle(const title & toChange);
 		void setTitleName(char* name);
 		void setTitleDate(char* date);
-
-		int sumCharName();
-
-		char* getTitle();
 		
 	protected:
 		char* date;
@@ -72,24 +68,4 @@ class liveStream : public video
 		char* topic;
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
