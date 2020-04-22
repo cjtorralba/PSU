@@ -5,7 +5,7 @@
 class node
 {
 	public:
-		node();		//~node();
+		node();		~node();
 		node(const node & toAdd);	//copy constructos
 
 		void addVideo(video& toAdd);
@@ -17,6 +17,9 @@ class node
 
 		node* returnNext();
 
+		void test();
+
+		video* myVideo;
 		int getType(); 	//returns the type in integer
 		// this is going to be used for our table in order to add
 		// nodes correctly to the array
@@ -26,7 +29,6 @@ class node
 
 	protected:
 
-		video* myVideo;
 		liveStream* myStream;
 		email* myEmail;
 		essay* myEssay;
@@ -46,10 +48,12 @@ class node
 class table
 {
 	public:
-		table();	//calls the constructor below
-		//~table();
+		table();	
+		~table();
 		bool addNode(node& toAdd);
 		void displayAll();
+
+		
 
 	protected:
 		node** nodeTable;

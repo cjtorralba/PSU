@@ -12,7 +12,7 @@ class title
 	public:
 		title(char* name, char* date);
 		title(const title & title);
-		title();	//~title();
+		title();	~title();	
 		
 
 		void display();
@@ -20,12 +20,11 @@ class title
 		void changeTitle(const title & toChange);
 		void setTitleName(char* name);
 		void setTitleDate(char* date);
+		void destroy();
 		
 	protected:
-		char* date;
-
-
 		char* name;
+		char* date;
 };
 
 
@@ -36,7 +35,7 @@ class video : public title
 {
 
 	public:
-		video();	//~video();
+		video();	~video();	
 		video(char* name, char* date, char* description, double length);
 		video(const video & toCopy);
 

@@ -4,11 +4,68 @@
 
 
 //node constructors
-node::node() : myVideo(NULL), myStream(NULL), myEmail(NULL), myEssay(NULL), next(NULL), type(-1) { }
+node::node() : myVideo(NULL), myStream(NULL), myEmail(NULL), myEssay(NULL), next(NULL), type(-1) { cout << "Called default constructor" << endl; }
 
-node::node(const node & toAdd) : myVideo(toAdd.myVideo), myStream(toAdd.myStream), myEmail(toAdd.myEmail), next(NULL){}	//not setting the next pointer to anything because we might have to work with it
+node::node(const node & toAdd) 	
+{
+	cout << "Node copy constructor called" << endl;
+	next = NULL;
 
 
+	if(toAdd.myVideo)
+	{
+		myVideo = new video(*toAdd.myVideo);
+		myStream = NULL;
+		myEmail = NULL;
+		myEssay = NULL;
+	}
+
+	else if(toAdd.myStream)
+	{
+		myStream = new liveStream(*toAdd.myStream);
+		myVideo = NULL;
+		myEmail = NULL;
+		myEssay = NULL;
+	}
+
+	else if(toAdd.myEmail)
+	{
+		myEmail = new email(*toAdd.myEmail);
+		myVideo = NULL;
+		myStream = NULL;
+		myEssay = NULL;
+	}
+
+	else if(toAdd.myEssay)
+	{
+		myEssay = new essay(*toAdd.myEssay);
+		myVideo = NULL;
+		myEmail = NULL;
+		myStream = NULL;
+	}
+}
+
+
+node::~node()
+{
+	cout << "called node destructor" << endl;
+	delete next;
+
+	if(myVideo)
+		delete myVideo;
+	else if(myStream)
+		delete myStream;
+	else if(myEmail)
+		delete myEmail;
+	else if(myEssay)
+		delete myEssay;
+
+	myVideo  = NULL;
+	myStream = NULL;
+	myEmail  = NULL;
+	myEssay  = NULL;
+	next = NULL;
+}
 
 //returns type, this is necessary for 
 //adding nodes to the node array in the table class
@@ -36,7 +93,7 @@ node* node::returnNext()
 
 
 
-void node::addVideo(video& toAdd)   
+void node::addVideo(video& toAdd)
 {
 	myVideo = new video(toAdd);	
 	type = 0;
@@ -109,13 +166,29 @@ bool node::displayNode()
 //===============================================================
 
 
+void node::test()
+{
+	cout << "Node information: " << endl
+		<< "Type: " << getType() << endl		 
+		<< "Displaying: " << endl
+		<< displayNode() << endl;
+}
+
+
+
+
+
+
+
+
+
 
 
 
 //=====================Table constructor and functions ====================A
 
-	
-	
+
+
 table::table()	
 {
 	int i;
@@ -125,6 +198,23 @@ table::table()
 
 	for(i = 0; i < size; ++i)
 		nodeTable[i] = NULL;	//setting them all to NULL
+}
+
+table::~table()
+{
+	cout << "Called table destructor" << endl;
+	int i;
+	for(i = 0; i < size; ++i)
+	{
+		if(nodeTable[i])
+		{
+			delete nodeTable[i];
+			nodeTable[i] = NULL;
+		}
+	}
+	delete [] nodeTable;
+	nodeTable = NULL;
+	cout << "finished destroying table" << endl;
 }
 
 bool table::addNode(node& toAdd)
@@ -193,8 +283,10 @@ void table::displayAll()
 			}	
 
 			for(cur = nodeTable[i]; cur != NULL; cur = cur->returnNext())
-					cur->displayNode();
+				cout << cur->getType();
+
 		}
+		cout << endl << endl << "I: " << i << endl;
 	}
 }
 

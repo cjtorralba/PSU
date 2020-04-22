@@ -4,9 +4,40 @@
 
 title::title() : name(NULL), date(NULL)	{} 	//constructor with no data given to us so we will set it to NUL
 
-title::title(char* name, char* date) : name(name), date(date) {} //constructor when we are given the data we need to work with
+title::title(char* name, char* date)
+{
+	this->name = new char[strlen(name) + 1];
+	this->date = new char[strlen(date) + 1];
 
-title::title(const title & toCopy) : name(toCopy.name), date(toCopy.date) {}
+	strcpy(this->name, name);
+	strcpy(this->date, date);
+} //constructor when we are given the data we need to work with
+
+title::title(const title & toCopy) 	//copy constructor
+{
+	cout << "Title copy constructor called" << endl;
+	if(toCopy.name)
+	{
+		name = new char[strlen(toCopy.name) + 1];
+		strcpy(name, toCopy.name);
+	}
+	if(toCopy.date)
+	{
+		date = new char[strlen(toCopy.date) + 1];
+		strcpy(date, toCopy.date);
+	}
+}
+
+title::~title()
+{
+	cout << "Call title destructor" << endl;
+	delete [] name;
+	delete [] date;
+
+	name = NULL;
+	date = NULL;
+}
+
 
 void title::display()
 {
@@ -32,7 +63,7 @@ void title::changeTitle(char* name, char* date)
 
 	if(this->date)	//checking to see if the date has been set already
 	{
-		
+
 		delete [] this->date;
 		this->date = new char[strlen(date) + 1];
 		strcpy(this->date, date);
@@ -115,9 +146,27 @@ void title::setTitleDate(char* date)
 video::video() : description(NULL) {}
 
 
-video::video(char* name, char* date, char* description, double length) : title(name, date), description(description), length(length) {}
+video::video(char* name, char* date, char* description, double length) : title(name, date), length(length) 
+{
+	this->description = new char[strlen(description) + 1];
+	strcpy(this->description, description);
+}
 
-video::video(const video & toCopy) : title(toCopy), description(toCopy.description), length(toCopy.length) {}
+video::video(const video & toCopy) : title(toCopy)
+{
+	description = new char[strlen(toCopy.description) + 1];
+	strcpy(description, toCopy.description);
+
+	length = toCopy.length;
+}	
+
+
+
+video::~video()
+{
+	delete [] description;
+	description = NULL;
+}
 
 
 
@@ -134,10 +183,24 @@ void video::display()
 
 liveStream::liveStream() : video(), instructor(NULL), topic(NULL) { }
 
-liveStream::liveStream(char* name, char* date, char* description, double length, char* instructor, char* topic) :
-	video(name, date, description, length), instructor(instructor), topic(topic) {}	
+liveStream::liveStream(char* name, char* date, char* description, double length, char* instructor, char* topic) 
+	: video(name, date, description, length)
+{
+	this->instructor = new char[strlen(instructor) + 1];
+	this->topic = new char[strlen(topic) + 1];
 
+	strcpy(this->instructor, instructor);
+	strcpy(this->topic, topic);
+}
 
+liveStream::~liveStream()
+{
+	delete [] instructor;
+	delete [] topic;
+
+	instructor = NULL;
+	topic = NULL;
+}
 
 void liveStream::display()
 {
@@ -146,13 +209,5 @@ void liveStream::display()
 	cout << "Instructor: " << this->instructor << endl
 		<< "Topic: " << this->topic << endl;
 }
-
-
-//liveStream::liveStream(const title & title, const video & video, char* instructor, char* topic) :
-//	title(title), video(video), instructor(instructor), topic(topic) {}
-
-
-
-
 
 
