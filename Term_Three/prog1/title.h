@@ -52,9 +52,8 @@ class video : public title
 class liveStream : public video
 {
 	public:
-		liveStream();	//~liveStream();
+		liveStream();	~liveStream();
 		liveStream(char* name, char* date, char* description, double length, char* instructor, char* topic);
-//		liveStream(const title & title, char* date, char* instructor, double length, char* topic);
 
 
 		void changeStream(const liveStream & toChange);

@@ -15,7 +15,6 @@ title::title(char* name, char* date)
 
 title::title(const title & toCopy) 	//copy constructor
 {
-	cout << "Title copy constructor called" << endl;
 	if(toCopy.name)
 	{
 		name = new char[strlen(toCopy.name) + 1];
@@ -30,7 +29,6 @@ title::title(const title & toCopy) 	//copy constructor
 
 title::~title()
 {
-	cout << "Call title destructor" << endl;
 	delete [] name;
 	delete [] date;
 

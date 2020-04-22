@@ -3,7 +3,7 @@
 class email : public title
 {
 	public:
-		email();	//~email();
+		email();	~email();
 		email(const email & toCopy);
 		
 
@@ -32,7 +32,7 @@ class email : public title
 class essay : public title
 {
 	public:
-		essay();	//~essay();
+		essay();	~essay();
 		essay(char* name, char* date, char* body, char* dueDate, int wordLength);
 		essay(const essay & toCopy);
 

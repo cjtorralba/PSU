@@ -15,7 +15,9 @@ class node
 
 		bool displayNode();
 
-		node* returnNext();
+		node *& returnNext();
+		node *& goNext();
+		void addToEnd(node* source, node *& head);
 
 		void test();
 
@@ -50,8 +52,10 @@ class table
 	public:
 		table();	
 		~table();
-		bool addNode(node& toAdd);
+		bool addNode(node* toAdd);
 		void displayAll();
+
+		void test(node& toAdd);
 
 		
 

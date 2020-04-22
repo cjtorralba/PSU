@@ -4,13 +4,11 @@
 
 
 //node constructors
-node::node() : myVideo(NULL), myStream(NULL), myEmail(NULL), myEssay(NULL), next(NULL), type(-1) { cout << "Called default constructor" << endl; }
+node::node() : myVideo(NULL), myStream(NULL), myEmail(NULL), myEssay(NULL), next(NULL), type(-1) { }
 
 node::node(const node & toAdd) 	
 {
-	cout << "Node copy constructor called" << endl;
 	next = NULL;
-
 
 	if(toAdd.myVideo)
 	{
@@ -48,7 +46,6 @@ node::node(const node & toAdd)
 
 node::~node()
 {
-	cout << "called node destructor" << endl;
 	delete next;
 
 	if(myVideo)
@@ -67,6 +64,28 @@ node::~node()
 	next = NULL;
 }
 
+
+
+//recursive function to add to the end of 
+void node::addToEnd(node* source, node*& head)
+{
+	if(!head)
+	{
+		head = new node(*source);
+		return;
+	}
+	addToEnd(source, head->goNext());
+}
+
+
+//returns the node->next of current node
+node *& node::goNext()
+{
+	return this->next;
+}
+
+
+
 //returns type, this is necessary for 
 //adding nodes to the node array in the table class
 int node::getType()
@@ -77,7 +96,7 @@ int node::getType()
 
 
 //for traversing through the linear linked list
-node* node::returnNext()
+node *& node::returnNext()
 {
 	return next;
 }
@@ -123,7 +142,7 @@ void node::addEssay(essay& toAdd)
 //out display function making use of the type integer
 bool node::displayNode()
 {
-	int tempType = getType();
+	
 	bool displayed = false;
 
 	/*
@@ -134,7 +153,7 @@ bool node::displayNode()
 	 * 3 = essay
 	 */
 
-	switch(tempType)
+	switch(getType())	//using the type of object to call corresponding functions
 	{
 		case 0:
 			myVideo->display();
@@ -163,24 +182,6 @@ bool node::displayNode()
 }
 
 
-//===============================================================
-
-
-void node::test()
-{
-	cout << "Node information: " << endl
-		<< "Type: " << getType() << endl		 
-		<< "Displaying: " << endl
-		<< displayNode() << endl;
-}
-
-
-
-
-
-
-
-
 
 
 
@@ -202,7 +203,6 @@ table::table()
 
 table::~table()
 {
-	cout << "Called table destructor" << endl;
 	int i;
 	for(i = 0; i < size; ++i)
 	{
@@ -214,12 +214,11 @@ table::~table()
 	}
 	delete [] nodeTable;
 	nodeTable = NULL;
-	cout << "finished destroying table" << endl;
 }
 
-bool table::addNode(node& toAdd)
+bool table::addNode(node* toAdd)
 {
-	int position = toAdd.getType();	//position in array
+	int position = toAdd->getType();	//position in array
 
 
 	if(position == -1)	
@@ -231,18 +230,13 @@ bool table::addNode(node& toAdd)
 
 		if(nodeTable[position] == NULL)	//our position in the node table is empty
 		{
-			nodeTable[position] = new node(toAdd);
+			nodeTable[position] = new node(*toAdd);
 			return true;	//our node has succefully been added
 		}
 
 		else	//our position in the node table is not empty so we need to add to the  linear linked list
 		{
-			node* cur;
-
-			for(cur = nodeTable[position]; cur != NULL; cur = cur->returnNext());	//traversing to the end of the list
-
-			cur = new node(toAdd);
-
+			nodeTable[position]->addToEnd(toAdd, nodeTable[position]);	//calling recursive function to add to the end of our linear linked list
 			return true;
 		}
 	}
@@ -257,7 +251,7 @@ void table::displayAll()
 
 	for(i = 0; i < size; ++i)
 	{
-		/*
+		/*	for reference
 		 * 0 = video
 		 * 1 = liveStream
 		 * 2 = email
@@ -275,18 +269,20 @@ void table::displayAll()
 					cout << "LiveStreams: " << endl;
 					break;
 				case 2:
-					cout << "Essay: " << endl;
+					cout << "Emails: " << endl;
 					break;
 				case 3:
-					cout << "Emails: " << endl;
+					cout << "Essays: " << endl;
 					break;
 			}	
 
 			for(cur = nodeTable[i]; cur != NULL; cur = cur->returnNext())
-				cout << cur->getType();
+			{
+				cur->displayNode();	
+				cout << endl;
+			}
 
 		}
-		cout << endl << endl << "I: " << i << endl;
 	}
 }
 
