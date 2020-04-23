@@ -6,10 +6,15 @@
 //node constructors
 node::node() : myVideo(NULL), myStream(NULL), myEmail(NULL), myEssay(NULL), next(NULL), type(-1) { }
 
+
+
+//copy contrusctor for the node class
 node::node(const node & toAdd) 	
 {
 	next = NULL;
 
+
+	//have to set the type or else we will seg fault
 	if(toAdd.myVideo)
 	{
 		myVideo = new video(*toAdd.myVideo);
@@ -19,7 +24,6 @@ node::node(const node & toAdd)
 		type = toAdd.type;
 
 	}
-
 	else if(toAdd.myStream)
 	{
 		myStream = new liveStream(*toAdd.myStream);
@@ -28,7 +32,6 @@ node::node(const node & toAdd)
 		myEssay = NULL;
 		type = toAdd.type;
 	}
-
 	else if(toAdd.myEmail)
 	{
 		myEmail = new email(*toAdd.myEmail);
@@ -37,7 +40,6 @@ node::node(const node & toAdd)
 		myEssay = NULL;
 		type = toAdd.type;
 	}
-
 	else if(toAdd.myEssay)
 	{
 		myEssay = new essay(*toAdd.myEssay);
@@ -49,6 +51,9 @@ node::node(const node & toAdd)
 }
 
 
+
+
+//recursive destructor
 node::~node()
 {
 	delete next;
@@ -116,25 +121,22 @@ node *& node::returnNext()
  */
 
 
-
+//setting our class members to a new objects using the copy constructors of each class
 void node::addVideo(video& toAdd)
 {
 	myVideo = new video(toAdd);	
 	type = 0;
 }
-
 void node::addStream(liveStream& toAdd)   
 {
 	myStream = new liveStream(toAdd);
 	type = 1;
 }
-
 void node::addEmail(email& toAdd)  
 {
 	myEmail = new email(toAdd);
 	type = 2;
 }	
-
 void node::addEssay(essay& toAdd)   
 {
 	myEssay = new essay(toAdd);
@@ -143,8 +145,8 @@ void node::addEssay(essay& toAdd)
 
 
 
-
-//out display function making use of the type integer
+//our display function
+//this uses our type member of the node class to see if the array is NULL
 bool node::displayNode()
 {
 	
@@ -197,7 +199,7 @@ bool node::displayNode()
 //=====================Table constructor and functions ====================A
 
 
-
+//table constructor
 table::table()	
 {
 	int i;
@@ -209,6 +211,8 @@ table::table()
 		nodeTable[i] = NULL;	//setting them all to NULL
 }
 
+
+//table destructor calls node destructor on each element
 table::~table()
 {
 	int i;
@@ -224,6 +228,10 @@ table::~table()
 	nodeTable = NULL;
 }
 
+
+//adds a node to the nodeTable array
+//if the position is null we just set the first
+//if it is not null we call the recursive addToEnd() function for the node
 bool table::addNode(node* toAdd)
 {
 	int position = toAdd->getType();	//position in array
@@ -252,6 +260,63 @@ bool table::addNode(node* toAdd)
 }
 
 
+
+//These following display functions are for displaying all of any given 
+//objects using their type
+//
+/*	for reference
+ * 0 = video
+ * 1 = liveStream
+ * 2 = email
+ * 3 = essay
+ */	
+
+
+void table::displayVid()
+{
+	node* cur;
+	if(nodeTable[0])
+		for(cur = nodeTable[0]; cur != NULL; cur = cur->returnNext())
+		{
+			cout << endl;
+			cur->displayNode();
+		}
+}
+void table::displayEmails()
+{
+	node* cur;
+	if(nodeTable[2])
+		for(cur = nodeTable[2]; cur != NULL; cur = cur->returnNext())
+		{
+			cout << endl;
+			cur->displayNode();
+		}
+}
+void table::displayEssays()
+{
+	node* cur;
+	if(nodeTable[3])
+		for(cur = nodeTable[3]; cur != NULL; cur = cur->returnNext())
+		{
+			cout << endl;
+			cur->displayNode();
+		}
+}
+void table::displayStreams()	//displaying all streams(type id = 3);
+{
+	node* cur;
+	if(nodeTable[1])
+		for(cur = nodeTable[1]; cur != NULL; cur = cur->returnNext())
+		{
+			cout << endl;
+			cur->displayNode();
+		}
+}
+
+
+
+
+//displays all objects and in all elements of the array
 void table::displayAll()
 {
 	int i;
@@ -293,16 +358,3 @@ void table::displayAll()
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

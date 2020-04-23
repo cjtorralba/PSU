@@ -1,6 +1,17 @@
 #include "node.h"
 
 
+/*
+ * program one by christian torralba for cs202 at PSU
+ * this program is to experiment with the use of classes and inheritance, 
+ * we have developed classes to represent different types of learning, whether it be a video, livestream, or essay
+ *
+ * to store these classes we have made use of an array of linear linked lists to try to make it more efficent, each 
+ * element in the array contains a pointer to a list of like objects
+ */
+
+
+//just a simple function to check if the user want to continue
 bool again()
 {
 	char input;
@@ -63,14 +74,18 @@ int main()
 			<< "7: Display all emails" << endl
 			<< "8: Display all essays" << endl
 			<< "9: Display everything" << endl
-			<< "0: Exit" << endl;
 
 		cin >> input;	cin.ignore(100, '\n');
 
 		switch(input)
 		{
-			case 0:
-				break;
+			/*
+			 * when adding to our table, we allocated a new object of requested type and call the copy constructor on it to copy its contents into 
+			 * the array
+			 *
+			 * when the contents have been copied, we de allocate it and set it to null so we can re use the pointer
+			 */
+
 
 			case 1: 
 				cout << "Name: ";
@@ -129,6 +144,7 @@ int main()
 
 				toAdd->addStream(*stream);
 
+				
 				LLL.addNode(toAdd);
 
 				delete stream;
@@ -208,26 +224,33 @@ int main()
 
 				break;
 
-			case 9:
-				LLL.displayAll();
 
-			default:
+			 // switch cases for displaying certain sets of objects
+
+			 case 5:
+				LLL.displayVid();
+				break;
+			 case 6:
+				LLL.displayStreams();
+				break;
+			 case 7:
+				LLL.displayEmails();
+				break;
+			 case 8:
+				LLL.displayEssays();
 				break;
 
+			
+			//9 displays the entire list with all its contents
+			 case 9:
+				LLL.displayAll();
 
-
+			 default:
+				break;
 		}
-
-
-
-
-
-
-
 	}while(again());
 
 	return 0;
-
 }
 
 

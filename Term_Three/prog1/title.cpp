@@ -4,6 +4,8 @@
 
 title::title() : name(NULL), date(NULL)	{} 	//constructor with no data given to us so we will set it to NUL
 
+
+//constructor when we are given the information via arguments
 title::title(char* name, char* date)
 {
 	this->name = new char[strlen(name) + 1];
@@ -27,6 +29,8 @@ title::title(const title & toCopy) 	//copy constructor
 	}
 }
 
+
+//title destructor destroys dynamic memebersj
 title::~title()
 {
 	delete [] name;
@@ -36,7 +40,7 @@ title::~title()
 	date = NULL;
 }
 
-
+//display functions displays the name and date
 void title::display()
 {
 	if(name)
@@ -44,6 +48,9 @@ void title::display()
 	if(date)
 		cout << "Date: " << date << endl;
 }
+
+//a change title function 
+//I will probably not include this in main
 
 void title::changeTitle(char* name, char* date)
 {
@@ -141,15 +148,19 @@ void title::setTitleDate(char* date)
 //=================================Video function and constructors==================================
 
 
+
+//default constructor
 video::video() : description(NULL) {}
 
-
+//constructor when we are given the information via arguments
 video::video(char* name, char* date, char* description, double length) : title(name, date), length(length) 
 {
 	this->description = new char[strlen(description) + 1];
 	strcpy(this->description, description);
 }
 
+//copy constructor calls title copy contructor as well using
+//initialization list
 video::video(const video & toCopy) : title(toCopy)
 {
 	description = new char[strlen(toCopy.description) + 1];
@@ -158,8 +169,7 @@ video::video(const video & toCopy) : title(toCopy)
 	length = toCopy.length;
 }	
 
-
-
+//video destructor
 video::~video()
 {
 	delete [] description;
@@ -167,7 +177,8 @@ video::~video()
 }
 
 
-
+//display function calls title display function and 
+//also displays description and length
 void video::display()
 {
 	title::display();
@@ -178,12 +189,12 @@ void video::display()
 
 //====================Live stream functions and constructors==============================
 
-
+//default constructor
 liveStream::liveStream() : video(), instructor(NULL), topic(NULL) { }
 
+//copy contructor calls parent copy constructor for parent members
 liveStream::liveStream(const liveStream& toCopy) : video(toCopy)
 {
-	
 	this->instructor = new char[strlen(toCopy.instructor) + 1];
 	this->topic = new char[strlen(toCopy.topic) + 1];
 
@@ -191,6 +202,8 @@ liveStream::liveStream(const liveStream& toCopy) : video(toCopy)
 	strcpy(this->topic, toCopy.topic);
 }
 
+
+//constructor when we are given the information
 liveStream::liveStream(char* name, char* date, char* description, double length, char* instructor, char* topic) 
 	: video(name, date, description, length)
 {
@@ -201,6 +214,7 @@ liveStream::liveStream(char* name, char* date, char* description, double length,
 	strcpy(this->topic, topic);
 }
 
+//destructor
 liveStream::~liveStream()
 {
 	delete [] instructor;
@@ -210,9 +224,11 @@ liveStream::~liveStream()
 	topic = NULL;
 }
 
+
+//display function where we call parents display which in turn calls
+//the title display function as well
 void liveStream::display()
 {
-	cout << "Displaying stream" << endl;
 	video::display();
 
 	cout << "Instructor: " << this->instructor << endl
