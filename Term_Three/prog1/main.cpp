@@ -4,7 +4,9 @@
 bool again()
 {
 	char input;
+	cout << "Again? <y,n>:";
 	cin >> input;
+	cout << endl;
 	return input == 'y';
 }
 
@@ -88,7 +90,10 @@ int main()
 
 				toAdd->addVideo(*vid);
 
+
 				LLL.addNode(toAdd);
+
+
 
 				delete vid;
 				delete toAdd;
@@ -121,6 +126,7 @@ int main()
 
 				toAdd = new node();
 
+
 				toAdd->addStream(*stream);
 
 				LLL.addNode(toAdd);
@@ -142,9 +148,6 @@ int main()
 				cout << endl << "Date: ";
 				cin.get(date, 100, '\n');	cin.ignore(100, '\n');
 
-				cout << endl << "Sender: ";
-				cin.get(sender, 100, '\n');	cin.ignore(100, '\n');
-
 				cout << endl << "Recipiant: ";
 				cin.get(recipiant, 100, '\n');	cin.ignore(100, '\n');
 
@@ -159,7 +162,7 @@ int main()
 
 				toAdd = new node();
 
-				myEmail = new email(name, date, sender, recipiant, subject, body, timeSent);
+				myEmail = new email(name, date, recipiant, subject, body, timeSent);
 				
 				toAdd->addEmail(*myEmail);
 
@@ -180,7 +183,28 @@ int main()
 				cout << endl << "Date: ";
 				cin.get(date, 100, '\n');	cin.ignore(100, '\n');
 
+				cout << endl << "Due Date: ";
+				cin.get(dueDate, 100, '\n');	cin.ignore(100, '\n');
 
+				cout << endl << "Body: ";
+				cin.get(paper, 1200, '\n');	cin.ignore(1200, '\n');
+
+				cout << endl << "Word Length: ";
+				cin >> wordLength;		cin.ignore(100, '\n');
+
+				myEssay = new essay(name, date, paper, dueDate, wordLength);
+
+				toAdd =  new node();
+
+				toAdd->addEssay(*myEssay);
+
+				LLL.addNode(toAdd);
+
+				delete toAdd;
+				delete myEmail;
+
+				toAdd = NULL;
+				myEmail = NULL;
 
 				break;
 

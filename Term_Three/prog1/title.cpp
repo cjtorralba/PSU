@@ -181,6 +181,16 @@ void video::display()
 
 liveStream::liveStream() : video(), instructor(NULL), topic(NULL) { }
 
+liveStream::liveStream(const liveStream& toCopy) : video(toCopy)
+{
+	
+	this->instructor = new char[strlen(toCopy.instructor) + 1];
+	this->topic = new char[strlen(toCopy.topic) + 1];
+
+	strcpy(this->instructor, toCopy.instructor);
+	strcpy(this->topic, toCopy.topic);
+}
+
 liveStream::liveStream(char* name, char* date, char* description, double length, char* instructor, char* topic) 
 	: video(name, date, description, length)
 {
@@ -202,10 +212,13 @@ liveStream::~liveStream()
 
 void liveStream::display()
 {
+	cout << "Displaying stream" << endl;
 	video::display();
 
 	cout << "Instructor: " << this->instructor << endl
 		<< "Topic: " << this->topic << endl;
+
+	cout << "Done displaying stream" << endl;
 }
 
 

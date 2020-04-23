@@ -7,7 +7,7 @@ class email : public title
 		email(const email & toCopy);
 		
 
-		email(char* name, char* date, char* subject, char* body, char* sender, char* recipiant, double timeSent);
+		email(char* name, char* date, char* subject, char* body, char* recipiant, double timeSent);
 
 		void display();
 
@@ -16,7 +16,6 @@ class email : public title
 	protected:
 		char*    subject;
 		char* 	    body;
-		char*     sender;
 		char*  recipiant;
 		double  timeSent;
 };

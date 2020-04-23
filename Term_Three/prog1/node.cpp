@@ -16,6 +16,8 @@ node::node(const node & toAdd)
 		myStream = NULL;
 		myEmail = NULL;
 		myEssay = NULL;
+		type = toAdd.type;
+
 	}
 
 	else if(toAdd.myStream)
@@ -24,6 +26,7 @@ node::node(const node & toAdd)
 		myVideo = NULL;
 		myEmail = NULL;
 		myEssay = NULL;
+		type = toAdd.type;
 	}
 
 	else if(toAdd.myEmail)
@@ -32,6 +35,7 @@ node::node(const node & toAdd)
 		myVideo = NULL;
 		myStream = NULL;
 		myEssay = NULL;
+		type = toAdd.type;
 	}
 
 	else if(toAdd.myEssay)
@@ -40,6 +44,7 @@ node::node(const node & toAdd)
 		myVideo = NULL;
 		myEmail = NULL;
 		myStream = NULL;
+		type = toAdd.type;
 	}
 }
 
@@ -153,7 +158,9 @@ bool node::displayNode()
 	 * 3 = essay
 	 */
 
-	switch(getType())	//using the type of object to call corresponding functions
+
+
+	switch(type)	//using the type of object to call corresponding functions
 	{
 		case 0:
 			myVideo->display();
@@ -162,6 +169,7 @@ bool node::displayNode()
 		case 1:
 			myStream->display();
 			displayed = true;
+			cout << "done " << endl;
 			break;
 		case 2:
 			myEmail->display();

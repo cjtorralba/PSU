@@ -54,6 +54,7 @@ class liveStream : public video
 	public:
 		liveStream();	~liveStream();
 		liveStream(char* name, char* date, char* description, double length, char* instructor, char* topic);
+		liveStream(const liveStream & toCopy);
 
 
 		void changeStream(const liveStream & toChange);
