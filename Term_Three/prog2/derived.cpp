@@ -4,6 +4,8 @@
 //Swim class constructors and destructor
 swim::swim() : swimSuit(NULL), member(false), hasHotTub(NULL), exercise(false) {}
 
+
+//copy constructor
 swim::swim(const swim& toCopy) : base(toCopy), member(toCopy.member), hasHotTub(toCopy.hasHotTub), exercise(toCopy.exercise)
 {
 	if(toCopy.swimSuit)
@@ -14,7 +16,7 @@ swim::swim(const swim& toCopy) : base(toCopy), member(toCopy.member), hasHotTub(
 	}
 }
 
-
+//constructor when given all the members as arguments
 swim::swim(int length, int priority, bool group, char* name, char* location, char* swimSuit, bool member, bool hasHotTub) : 
 	base(length, priority, group, name, location), member(member), hasHotTub(hasHotTub), exercise(false)
 {
@@ -52,6 +54,8 @@ void swim::display()
 		cout << "You do not plan to exercise on this trip" << endl;
 }
 
+
+//prompts the user if the want to plan an exercise on this trip
 void swim::startExercise()
 {
 	char input;
@@ -71,6 +75,8 @@ void swim::startExercise()
 //hike class constructors and destructor
 hike::hike() : overNight(false), season(NULL), weather(NULL), climbShoes(false) {}
 
+
+//hike copy constructor
 hike::hike(const hike & toCopy) : base(toCopy), overNight(toCopy.overNight), climbShoes(toCopy.climbShoes)
 {
 	if(toCopy.season && toCopy.weather)
@@ -83,7 +89,7 @@ hike::hike(const hike & toCopy) : base(toCopy), overNight(toCopy.overNight), cli
 	}
 }
 
-
+//hike constructor when given all members as, arguments
 	hike::hike(int length, int priority, bool group, char* name, char* location, bool overNight, char* season, char* weather)
 : base(length, priority, group, name, location), overNight(overNight), climbShoes(false)
 {
@@ -94,6 +100,7 @@ hike::hike(const hike & toCopy) : base(toCopy), overNight(toCopy.overNight), cli
 	strcpy(this->weather, weather);
 }
 
+//hike destrucotr deleting all dynamically allocated memory
 hike::~hike()
 {
 	delete [] this->season;
@@ -106,6 +113,7 @@ hike::~hike()
 
 
 //hike class functions
+//displayu funtiuons
 void hike::display()
 {
 	base::display();
@@ -118,6 +126,8 @@ void hike::display()
 
 }
 
+
+//prompts the user if they want to pack rock climbing shoes
 bool hike::rockClimb()
 {
 	char input;
@@ -139,6 +149,7 @@ bool hike::rockClimb()
 work::work() : position(NULL), pay(-1), partTime(false), lunch(NULL) {}
 
 
+//work class constructor when given the information as arguments
 	work::work(int length, int priority, bool group, char* name, char* location, char* position, int pay, bool partTime)
 : base(length, priority, group, name, location), pay(pay), partTime(partTime), lunch(NULL)
 {
@@ -146,7 +157,7 @@ work::work() : position(NULL), pay(-1), partTime(false), lunch(NULL) {}
 	strcpy(this->position, position);
 }
 
-
+//work class copy constructor
 work::work(const work& toCopy) : base(toCopy), pay(toCopy.pay), partTime(toCopy.partTime)
 {
 	if(toCopy.position)
@@ -161,7 +172,7 @@ work::work(const work& toCopy) : base(toCopy), pay(toCopy.pay), partTime(toCopy.
 		strcpy(this->lunch, toCopy.lunch);
 	}
 }
-
+//work class destructor
 work::~work()
 {
 	delete [] this->position;
@@ -170,6 +181,7 @@ work::~work()
 
 
 //work class functions
+//usual display fucntion
 void work::display()
 {
 	base::display();
@@ -185,7 +197,7 @@ void work::display()
 		cout << "Lunch: " << lunch << endl;
 }
 
-
+//prompts the user for which type of lunch they would like to pack
 void work::planLunch()
 {
 	char input;
@@ -212,17 +224,4 @@ void work::planLunch()
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -20,13 +20,24 @@ void help()
 		<< "H: To see this prompt again" << endl;
 }
 
+char getInput()
+{
+	char commandInput;
+
+	cout << "Please enter a command: ";
+	cin >> commandInput; 	cin.ignore(100, '\n');	cout << endl;
+
+	return commandInput;
+}
+
 int main()
 {
-	list myList;
-	base* toFind;
+	list myList;	//our data structur
+	base* toFind;	//for dynamic casting
 
-	char input;
-	char locateActivity[50];
+	char commandInput;	//input commands
+	char input;		//members inputs
+	char locateActivity[50];	//name to match and find base pointers
 
 
 	//base class memebers 
@@ -58,7 +69,7 @@ int main()
 
 
 
-	//how we will be deciding what to do based on user input
+	//how we will be deciding what to do based on user commandInput
 
 
 
@@ -68,9 +79,9 @@ int main()
 
 	do
 	{
-		cin >> input;	cin.ignore(100, '\n');
+		commandInput = getInput();
 
-		switch(input)
+		switch(commandInput)
 		{
 			case '1':
 
@@ -144,7 +155,12 @@ int main()
 					isGroupActivity = false;
 
 				cout << "Will this hike be overnight? <y,n>: ";
-				cin >> overNight;	cin.ignore(100, '\n');	cout << endl;
+				cin >> input;	cin.ignore(100, '\n');	cout << endl;
+
+				if(input == 'y')
+					overNight = true;
+				else
+					overNight = false;
 
 				cout << "Current Season: ";
 				cin.get(season, 20, '\n');	cin.ignore(100, '\n');	cout << endl;
@@ -238,20 +254,22 @@ int main()
 				cin.get(locateActivity, 40, '\n');	cin.ignore(100, '\n');	cout << endl;
 
 				toFind = myList.getNodeByName(locateActivity);
-
-				myWork = dynamic_cast<work*>(toFind);
-
-				myWork->display();
-				
-				if(myWork)
+				if(toFind)
 				{
-					try
+					myWork = dynamic_cast<work*>(toFind);
+
+					myWork->display();
+
+					if(myWork)
 					{
-						myWork->planLunch();
-					}catch(int e) {}
+						try
+						{
+							myWork->planLunch();
+						}catch(int e) {}
+					}
+					else
+						cout << "Sorry, couldn't add a lunch to this activity..." << endl;
 				}
-				else
-					cout << "Sorry, couldn't add a lunch to this activity..." << endl;
 				myWork = NULL;
 				toFind = NULL;
 
@@ -325,7 +343,8 @@ int main()
 				break;
 		}
 
-	} while(input != '0');
+	} while(commandInput != '0');
+
 	cout << "Exiting Program..." << endl;
 
 
