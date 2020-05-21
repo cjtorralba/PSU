@@ -1,19 +1,19 @@
 #include "tree.h"
 
-
+//constructors
 node::node() : id(-1), left(NULL), right(NULL),  myBook(NULL), myWeb(NULL), myZoom(NULL) {}
 
 node::node(const node& toCopy) : id(toCopy.id), left(NULL), right(NULL)
 {
 	switch(toCopy.id)
 	{
-		case 0:
+		case '0':
 			myBook = new book(*toCopy.myBook);
 			break;
-		case 1:
+		case '1':
 			myWeb = new website(*toCopy.myWeb);
 			break;
-		case 2:
+		case '2':
 			myZoom = new zoom(*toCopy.myZoom);
 			break;
 		default:
@@ -48,6 +48,8 @@ node::~node()
 	right = NULL;
 }
 
+
+//displays the content of the node
 void node::display()
 {
 	switch(id)
@@ -67,8 +69,8 @@ void node::display()
 }
 
 
-
-int node::getPriority()
+//returns the priority of the contents of the node
+char node::getPriority()
 {
 	char priority = '\0';
 	switch(id)
@@ -105,28 +107,36 @@ int node::getPriority()
 void node::addBook(book& toAdd)
 {
 	myBook = new book(toAdd);
-	id = 0;
+	id = '0';
 }
 
 void node::addWeb(website& toAdd)
 {
 	myWeb = new website(toAdd);
-	id = 1;
+	id = '1';
 }
 
 void node::addZoom(zoom& toAdd)
 {
 	myZoom = new zoom(toAdd);
-	id = 2;
+	id = '2';
 }
 
 
 
 
-
+//constructor
 
 tree::tree() : root(NULL) {}
 
+tree::~tree()
+{
+	delete root;
+	root = NULL;
+}
+
+
+//add a node to the tree
 void tree::addNode(node& toAdd, node*& root)
 {
 	if(!root)
@@ -146,18 +156,20 @@ void tree::addNode(node& toAdd, node*& root)
 
 }
 
+
+//wrapper function
 void tree::addNode(node& toAdd)
 {
 	addNode(toAdd, root);
 }
 
-
+//wrapper fucntion
 void tree::display()
 {
 	display(root);
 }
 
-
+//recursivea display function
 void tree::display(node* root)
 {
 	if(!root)
@@ -172,6 +184,8 @@ void tree::display(node* root)
 
 }
 
+
+//populating the tree with information from the external file
 void tree::getFromFile()
 {
 	ifstream in;
@@ -195,6 +209,12 @@ void tree::getFromFile()
 	char time[100];
 	char id[100];
 
+	website* myWeb;
+	zoom* myZoom;
+	book* myBook;
+
+	node* toAdd;
+
 
 	if(in)
 		in.peek();
@@ -216,53 +236,81 @@ void tree::getFromFile()
 
 				in.get(priority);	in.ignore(100, '\n');
 
-				root->addWeb(*(new website(priority, subject, link)));
+
+				myWeb = new website(priority, subject, link);
+				toAdd = new node();
+
+				toAdd->addWeb(*myWeb);
+
+				addNode(*toAdd);
+
+				delete toAdd;
+				delete myWeb;
+
+				toAdd = NULL;
+				myWeb = NULL;
 
 				break;
 			case 'b':
+
+				in.get(pages, 100, '|');	in.ignore(100, '|');
+
+				in.get(author, 100, '|');	in.ignore(100, '|');
+
+				in.get(title, 100, '|');	in.ignore(100, '|');
+
+				in.get(subject, 100, '|');	in.ignore(100, '|');
+
+				in.get(priority);	in.ignore(100, '\n');
+
+
+				myBook = new book(priority, subject, pages, author, title);
+				toAdd = new node();
+
+				toAdd->addBook(*myBook);
+
+				addNode(*toAdd);
+
+				delete toAdd;
+				delete myBook;
+
+				toAdd = NULL;
+				myBook = NULL;
+
+
 				break;
 			case 'z':
+
+				in.get(teacher, 100, '|');	in.ignore(100, '|');
+
+				in.get(time, 100, '|');		in.ignore(100, '|');
+
+				in.get(id, 100, '|');		in.ignore(100, '\n');
+
+				in.get(subject, 100, '|');	in.ignore(100, '|');
+
+				in.get(priority);		in.ignore(100, '\n');
+
+
+				myZoom = new zoom(priority, subject, teacher, time, id);
+				toAdd = new node();
+
+				toAdd->addZoom(*myZoom);
+
+				addNode(*toAdd);
+
+				delete toAdd;
+				delete myZoom;
+
+				toAdd = NULL;
+				myZoom = NULL;
+
+
 				break;
 			default:
 				break;
-
-
-
-
 		}
-		/*
-
-		in.get(word, 100, '|');
-		in.ignore(100, '|');
-		cout << word << endl;
-
-		in.get(word, 100, '|');
-		in.ignore(100, '|');
-		cout << word << endl;
-
-		in.get(word, 100, '|');
-		in.ignore(100, '\n');
-		cout << word << endl;
-
-		in.get(type);
-		cout << input << endl;
-		*/
-
-
-
-		break;
-
-
-
-
-
 	}
-
-	
-
-
-
-
 }
 
 

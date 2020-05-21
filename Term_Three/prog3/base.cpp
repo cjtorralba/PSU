@@ -1,7 +1,7 @@
 #include "base.h"
 
 
-
+//constructors and destructors
 base::base() : subject(NULL) { }
 
 base::~base()
@@ -24,15 +24,16 @@ base::base(char* subject, char priority) : priority(priority)
 }
 
 
+//displays information in the base class
 void base::display()
 {
 	if(subject)
 		cout << "Subject: " << subject << endl;
-	if(priority)
-		cout << "Priority: " << priority << endl;
+	cout << "Priority: " << priority << endl;
+
 }
 
-
+//writes to the given ofstream file
 void base::writeToFile(ofstream& out)
 {
 	if(out)

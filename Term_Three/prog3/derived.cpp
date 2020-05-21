@@ -1,7 +1,7 @@
 #include "derived.h"
 
 
-
+//constructors and destructors
 website::website() : link(NULL) {}
 
 website::~website()
@@ -28,13 +28,17 @@ website::website(const website& toCopy) : base(toCopy)
 }
 
 
+//display functions displays all the data members and calls base class display function
 void website::display()
 {
+
 	base::display();
 	cout << "Link: " << link << endl;
+	
 }
 
 
+//writes the information of the object to file then calls base class writeToFile()
 void website::writeToFile()
 {
 	ofstream out;
@@ -48,7 +52,7 @@ void website::writeToFile()
 }
 
 
-
+//zoom class constructors and destructors
 zoom::zoom() : teacher(NULL), time(NULL), id(NULL) {}
 
 zoom::~zoom()
@@ -85,6 +89,9 @@ zoom::zoom(const zoom& toCopy) : base(toCopy), id(toCopy.id)
 	}
 }
 
+
+
+//writes the information of the object to file then calls base class writeToFile()
 void zoom::writeToFile()
 {
 
@@ -103,6 +110,7 @@ void zoom::writeToFile()
 
 
 
+//display functions displays all the data members and calls base class display function
 
 void zoom::display()
 {
@@ -112,7 +120,7 @@ void zoom::display()
 }
 
 
-
+//book class construectors and destructors
 book::book() : pages(NULL), author(NULL), title(NULL) {}
 
 book::~book()
@@ -157,7 +165,7 @@ book::book(char priority, char* subject, char* pages, char* author, char* title)
 	strcpy(this->pages, pages);
 }
 
-
+//writes the information of the object to file then calls base class writeToFile()
 void book::writeToFile()
 {
 	ofstream out;
@@ -176,6 +184,7 @@ void book::writeToFile()
 
 
 
+//display functions displays all the data members and calls base class display function
 void book::display()
 {
 	base::display();
